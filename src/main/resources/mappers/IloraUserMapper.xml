@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.thingcom.demo.dao.IloraUserMapper">
+  <resultMap id="BaseResultMap" type="com.thingcom.demo.dataobject.IloraUser">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="username" jdbcType="VARCHAR" property="username" />
+    <result column="password" jdbcType="VARCHAR" property="password" />
+    <result column="email" jdbcType="VARCHAR" property="email" />
+    <result column="company" jdbcType="VARCHAR" property="company" />
+    <result column="phone" jdbcType="VARCHAR" property="phone" />
+    <result column="question" jdbcType="VARCHAR" property="question" />
+    <result column="answer" jdbcType="VARCHAR" property="answer" />
+    <result column="role" jdbcType="INTEGER" property="role" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from ilora_user
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.thingcom.demo.dataobject.IloraUser">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into ilora_user (username, password, email,
+      company, phone, question,
+      answer, role, create_time,
+      update_time)
+    values (#{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR},
+      #{company,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, #{question,jdbcType=VARCHAR},
+      #{answer,jdbcType=VARCHAR}, #{role,jdbcType=INTEGER}, now(),
+      now())
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.thingcom.demo.dataobject.IloraUser">
+    update ilora_user
+    set username = #{username,jdbcType=VARCHAR},
+      `password` = #{password,jdbcType=VARCHAR},
+      email = #{email,jdbcType=VARCHAR},
+      company = #{company,jdbcType=VARCHAR},
+      phone = #{phone,jdbcType=VARCHAR},
+      question = #{question,jdbcType=VARCHAR},
+      answer = #{answer,jdbcType=VARCHAR},
+      `role` = #{role,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = now()
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select id, username, `password`, email, company, phone, question, answer, `role`,
+    create_time, update_time
+    from ilora_user
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select id, username, `password`, email, company, phone, question, answer, `role`,
+    create_time, update_time
+    from ilora_user
+  </select>
+  <!--根据用户名来查询用户是否存在-->
+  <select id="checkUsername" parameterType="String" resultType="int">
+    select count(1) from ilora_user
+    where username = #{username}
+  </select>
+  <!--根据邮箱来查询用户是否存在-->
+  <select id="checkEmail" parameterType="String" resultType="int">
+    select count(1) from ilora_user
+    where email = #{email}
+  </select>
+  <!--根据手机号来查询用户是否存在-->
+  <select id="checkPhone" parameterType="String" resultType="int">
+    select count(1) from ilora_user
+    where phone = #{phone}
+  </select>
+
+</mapper>

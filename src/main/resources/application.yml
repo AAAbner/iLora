@@ -1,0 +1,17 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    username: root
+    password: 123456
+    url: jdbc:mysql://127.0.0.1:3306/ilora?characterEncoding=utf-8&useSSL=false
+  jpa:
+    show-sql: true
+server:
+  port: 8082
+
+#mybatis mapper文件的位置
+mybatis.mapper-locations: mappers/*Mapper.xml
+#扫描pojo类的位置,在此处指明扫描实体类的包，在mapper中就可以不用写pojo类的全路径名了
+mybatis.type-aliases-package: com.thingcom.demo.dataobject
+#mybatis:
+#  config-location: generatorConfig.xml
